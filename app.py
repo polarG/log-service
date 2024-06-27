@@ -4,7 +4,7 @@ import socket
 
 app = Flask(__name__)
 LOG_DIR = './data' #/var/log'
-MAX_PER_PAGE = 100
+# MAX_PER_PAGE = 100
 
 @app.route('/logs', methods=['GET'])
 def get_logs():    
@@ -33,18 +33,21 @@ def get_logs():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-    if len(lines) - limit > 0:
-        # trunc lines to limit length
-        lines = lines[len(lines) - limit: ]
+    end = len(lines) - offset
+    start = end - limit if end > limit else 0
+    # trunc lines to limit length
+    lines = lines[start: end]
     
-    lines.reverse() # reverse lines
+    # reverse lines
+    lines.reverse() 
+
+    app.logger.debug(f"Response contain {len(lines)} lines.")
     
     res = [{
         'hostname': socket.gethostname(), 
         'IP': socket.gethostbyname(socket.gethostname()),
         'file': file_path,
-        'start': offset,
-        'next page': limit + 1,
+        'offset': offset + limit,
         'log': lines
         }]
 
