@@ -71,3 +71,4 @@ Run test
 ```sh
 pytest
 ```
+To simulate the test file in /var/logs, please ensure that pytest is run using the root user.
