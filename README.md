@@ -20,7 +20,7 @@ A Flask-based HTTP REST API service to read and filter logs from the /var/log di
 ## Start Service
 Start Flask server
 ```sh
-python run
+flask run
 ```
     
 ## API Endpoints
